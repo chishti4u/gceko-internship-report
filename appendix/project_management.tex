@@ -1,0 +1,725 @@
+\begin{landscape}
+\section{Project Management}
+%______________________________________________________________
+% Work Breakdown Structure
+% Breakdown of the tasks in individual work packages.
+% Up to two levels of workpackages
+%______________________________________________________________
+
+\subsection{Work Breakdown Structure}
+
+    \small
+    \begin{tikzpicture}[
+        basic/.style   = {draw, text width=2.7cm, align=left, drop shadow, rectangle},
+        root/.style    = {basic, text width=12cm, rounded corners=2pt, thin, align=center, fill=gray!30},
+        level 2/.style = {basic, rounded corners=2pt, thin, fill=gray!30},
+        level 3/.style = {basic, thin, fill=gray!15, text width=2.6cm},
+        level 1/.style={sibling distance=38mm}, edge from parent fork down,
+        edge from parent/.style={->,draw}, level distance=2.5cm,  >=latex]
+
+    % root of the the initial tree, level 1
+    \node[root] {\textbf{Thesis Title}}
+    % The first level, as children of the initial tree
+        child {node[level 2] (c1) {\textbf{WP~1000} \\ Literature Research}}
+        child {node[level 2] (c2) {\textbf{WP~2000} \\ Main Task 1 \\ $~~$}}
+        child {node[level 2] (c3) {\textbf{WP~3000} \\ Main Task 2 \\ $~~$}}
+        child {node[level 2] (c4) {\textbf{WP~4000} \\ Main Task 3 \\ $~~$}}
+        child {node[level 2] (c5) {\textbf{WP~5000} \\ Documentation \\ $~~$}};
+
+    % The second level, relatively positioned nodes
+    \begin{scope}[every node/.style={level 3}, node distance=6pt]
+    \node [below=of c1, xshift=10pt] (c11) {\textbf{WP~1100} \\ Literature Topic 1};
+    \node [below=of c11] (c12) {\textbf{WP~1200} \\ Literature Topic 2};
+    \node [below=of c12] (c13) {\textbf{WP~1300} \\ Literature Topic 3};
+
+    \node [below=of c2, xshift=10pt] (c21) {\textbf{WP~2100} \\ Sub Task 1.1};
+    \node [below=of c21] (c22) {\textbf{WP~2200} \\ Sub Task 1.2};
+    \node [below=of c22] (c23) {\textbf{WP~2300} \\ Sub Task 1.3};
+
+    \node [below=of c3, xshift=10pt] (c31) {\textbf{WP~3100} \\ Sub Task 2.1};
+    \node [below=of c31] (c32) {\textbf{WP~3200} \\ Sub Task 2.2};
+    \node [below=of c32] (c33) {\textbf{WP~3300} \\ Sub Task 2.3};
+    \node [below=of c33] (c34) {\textbf{WP~3400} \\ Sub Task 2.4};
+
+    \node [below=of c4, xshift=10pt] (c41) {\textbf{WP~4100} \\ Sub Task 3.1};
+    \node [below=of c41] (c42) {\textbf{WP~4200} \\ Sub Task 3.2};
+
+    \end{scope}
+
+    % lines from each level 1 node to every one of its "children"
+    \foreach \value in {1,2,3}
+        \draw[->] ([xshift=4pt]c1.south west) |- (c1\value.west);
+
+    \foreach \value in {1,2,3}
+        \draw[->] ([xshift=4pt]c2.south west) |- (c2\value.west);
+
+    \foreach \value in {1,2,3,4}
+        \draw[->] ([xshift=4pt]c3.south west) |- (c3\value.west);
+
+    \foreach \value in {1,2}
+        \draw[->] ([xshift=4pt]c4.south west) |- (c4\value.west);
+
+    \end{tikzpicture}
+    \normalsize
+
+\end{landscape}
+
+\begin{landscape}
+
+%______________________________________________________________
+% Gantt Chart
+% Time line of the project
+% Shows duration and chronological structure for each 
+%  workpackage and project milestones
+%______________________________________________________________
+\subsection{Gantt Chart}
+\definecolor{color_bar}{RGB}{0, 63, 137}
+\definecolor{color_group}{RGB}{0, 37, 82}
+\begin{center}
+    \begin{ganttchart}[
+        expand chart=.95\linewidth,
+        vgrid,
+        bar/.append style={fill=color_bar, draw=none},
+        group/.append style={fill=color_group},
+        group left shift=0,
+        group right shift=0,
+        group peaks tip position=0,
+        group peaks height=.25,
+        y unit chart = 0.445cm,
+        group top shift=0.25,
+        bar top shift=-0.1,
+        bar height=0.6,
+        milestone top shift=-0.1,
+        milestone/.append style={xscale=0.5}]{1}{16}
+        \gantttitle{Weeks}{16} \\
+        \gantttitlelist{1,...,16}{1} \\
+
+        \ganttgroup{WP 1000: Literature Research}{1}{5} \\
+        \ganttbar{WP 1100: Literature Topic 1}{1}{3} \\
+        \ganttbar{WP 1200: Literature Topic 2}{2}{4} \\
+        \ganttbar{WP 1300: Literature Topic 3}{2}{5} \\
+        \\
+        \ganttgroup{WP 2000: Main Task 1}{4}{8} \\
+        \ganttbar{WP 2100: Sub Task 1.1}{4}{6} \\
+        \ganttbar{WP 2200: Sub Task 1.2}{6}{7} \\
+        \ganttbar{WP 2300: Sub Task 1.3}{7}{8} \\
+        \ganttmilestone{Milestone 1}{8} \\
+        \\
+        \ganttgroup{WP 3000: Main Task 2}{4}{11} \\
+        \ganttbar{WP 3100: Sub Task 2.1}{4}{5} \\
+        \ganttbar{WP 3200: Sub Task 2.2}{5}{6} \\
+        \ganttbar{WP 3300: Sub Task 2.3}{6}{8} \\
+        \ganttbar{WP 3400: Sub Task 2.4}{7}{11} \\
+        \ganttmilestone{Milestone 2}{11} \\
+        \\
+        \ganttgroup{WP 4000: Main Task 3}{8}{12} \\
+        \ganttbar{WP 4100: Sub Task 3.1}{8}{12} \\
+        \ganttbar{WP 4200: Sub Task 3.2}{8}{12} \\
+        \ganttmilestone{Milestone 3}{12} \\
+        \\
+        \ganttgroup{WP 5000: Documentation}{1}{16} \\
+        \ganttmilestone{Draft}{12} \\
+        \ganttmilestone{Submission}{16}
+    \end{ganttchart}
+\end{center}
+\end{landscape}
+
+%______________________________________________________________
+% Work Package Description
+% Detailed description of each workpackage
+%______________________________________________________________
+
+\subsection{Work Package Description}
+
+\newcommand{\wpddate}{27.09.2021}
+%%%%
+% WP1000 - Literature Research
+%%%%
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 1100}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Literature Topic 1}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 1} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 3} & \textbf{Duration}: 3 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Gain knowledge about the literature research topic 1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Gain a deep understanding of the current state of the art on research topic 1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Journal papers on literature topic 1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Conference papers on literature topic 1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature research literature topic 1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Basic knowledge about literature topic 1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Deeper knowledge about literature topic 1}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 1200}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Literature Topic 2}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 2} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 4} & \textbf{Duration}: 3 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Get insight into literature topic 2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Gather state-of-the-art information on literature topic 2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature on literature topic 2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature on literature topic 2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature research on literature topic 2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature research on literature topic 2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Basic knowledge on literature topic 2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Basic knowledge on literature topic 2 in general}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 1300}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Literature Topic 3}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 2} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 5} & \textbf{Duration}: 4 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Get insight into literature topic 3, to be able to derive decisions and requirements about stuff}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Documentation of literature topic 3}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP 3200} Research for subsystems/units/parts/components}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP 3200} Gather technical solutions for novel design}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature research on literature topic 3}\\            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Select technical solutions of literature topic 3 as proposal for thingy to be developed}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+%%%%
+% WP2000 - Main Task 1
+%%%%
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 2100}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 1.1}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 4} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 6} & \textbf{Duration}: 3 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Identify needs and characteristics for sub task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Identify requirements and expected performance}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Identify constraints}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Documentation, haha }\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Documentation of other stuff xD}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP 1100} Input from the literature research}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Precisely define the thingy to be defined in sub task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Requirements for development thingy}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Furhter results}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 2200}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 1.2}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 6} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 7} & \textbf{Duration}: 2 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Compare the current state of the stuff to the previous defined requirements}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Additional Goal}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Results from WPXXXX}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input from WPXXXX}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} Connection to this workpkg}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} Connection to this workpkg}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-A of Sub Task 1.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-B of Sub Task 1.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result of Sub Task 1.2}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 2300}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 1.3}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 6} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 8} & \textbf{Duration}: 2 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-A of Sub Task 1.3}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-B of Sub Task 1.3}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Results from WPXXXX}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input from WPXXXX}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} connection to this workpg}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} connection to this workpg}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-A of Sub Task 1.3}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-B of Sub Task 1.3}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result of Sub Task 1.3}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+%%%%
+% WP3000 - Main Task 2
+%%%%
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 3100}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 2.1}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 4} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 5} & \textbf{Duration}: 2 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal of Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-A for Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-B for Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-C for Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} connection to this workpkg}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} connection to this workpkg}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} connection to this workpkg}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task of Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result-A of Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result-B of Sub Task 2.1}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 3200}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 2.2}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 5} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 6} & \textbf{Duration}: 2 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-A of Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-B of Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-A for Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-B for Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX/XXXX} connection to these workpkgs}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX/XXXX} connection to these workpkgs}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-A of Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-B of Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result-A of Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result-B of Sub Task 2.2}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 3300}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 2.3}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 6} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 8} & \textbf{Duration}: 3 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal of Sub Task 2.3}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input for Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task of Sub Task 2.3}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result of Sub Task 2.3}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 3400}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 2.4}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 7} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 11} & \textbf{Duration}: 5 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal of Sub Task 2.4}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-A for Sub Task 2.4}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-B for Sub Task 2.4}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task of Sub Task 2.4}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result of Sub Task 3.4}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+%%%%
+% WP4000 - Main Task 3
+%%%%
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 4100}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 3.1}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 8} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 12} & \textbf{Duration}: 5 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal of Sub Task 3.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input for Sub Task 3.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task of Sub Task 3.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result of Sub Task 3.1}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 4200}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 3.2}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 8} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 12} & \textbf{Duration}: 5 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-A of Sub Task 3.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-B of Sub Task 3.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input for Sub Task 3.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-A of Sub Task 3.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-B of Sub Task 3.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Results of Sub Task 3.2}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
+
+%%%%
+% WP5000 - Documentation
+%%%%
+
+\begin{table}[!h]
+    \begin{center}
+        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
+            \hline
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 5000}}\\
+            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
+            \hline\hline
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Documentation}}
+            & \textbf{Page:} 1 of 1\\
+            \hline
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \hline
+            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \hline\hline
+            \textbf{Start} & \multicolumn{2}{l||}{Week 1} & \\
+            \hline
+            \textbf{End} & \multicolumn{2}{l||}{Week 16} & \textbf{Duration}: 16 Weeks\\
+            \hline\hline
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \hline\hline
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Documentation of work on all WPs}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ WPs 1000-4000}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Produce draft}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Revise draft}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Final documentation}\\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{table}
+
+\clearpage
