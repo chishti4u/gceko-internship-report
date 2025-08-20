@@ -21,28 +21,28 @@
     \node[root] {\textbf{Thesis Title}}
     % The first level, as children of the initial tree
         child {node[level 2] (c1) {\textbf{WP~1000} \\ Literature Research}}
-        child {node[level 2] (c2) {\textbf{WP~2000} \\ Main Task 1 \\ $~~$}}
-        child {node[level 2] (c3) {\textbf{WP~3000} \\ Main Task 2 \\ $~~$}}
-        child {node[level 2] (c4) {\textbf{WP~4000} \\ Main Task 3 \\ $~~$}}
+        child {node[level 2] (c2) {\textbf{WP~2000} \\ Python - RaspBerry Pi Interface Development \\ $~~$}}
+        child {node[level 2] (c3) {\textbf{WP~3000} \\ Application Frontend Development \\ $~~$}}
+        child {node[level 2] (c4) {\textbf{WP~4000} \\ Realtime Data Links Development - Sockets \\ $~~$}}
         child {node[level 2] (c5) {\textbf{WP~5000} \\ Documentation \\ $~~$}};
 
     % The second level, relatively positioned nodes
     \begin{scope}[every node/.style={level 3}, node distance=6pt]
-    \node [below=of c1, xshift=10pt] (c11) {\textbf{WP~1100} \\ Literature Topic 1};
-    \node [below=of c11] (c12) {\textbf{WP~1200} \\ Literature Topic 2};
-    \node [below=of c12] (c13) {\textbf{WP~1300} \\ Literature Topic 3};
+    \node [below=of c1, xshift=10pt] (c11) {\textbf{WP~1100} \\ Mechanics of hierarchical adhesion structures of geckos};
+    \node [below=of c11] (c12) {\textbf{WP~1200} \\ Space applications for gecko-inspired adhesives};
+    \node [below=of c12] (c13) {\textbf{WP~1300} \\ Bioinspired Dry Adhesives for Space Applications};
 
-    \node [below=of c2, xshift=10pt] (c21) {\textbf{WP~2100} \\ Sub Task 1.1};
-    \node [below=of c21] (c22) {\textbf{WP~2200} \\ Sub Task 1.2};
-    \node [below=of c22] (c23) {\textbf{WP~2300} \\ Sub Task 1.3};
+    \node [below=of c2, xshift=10pt] (c21) {\textbf{WP~2100} \\ Setting Up Python Development Environment in Raspberry Pi };
+    \node [below=of c21] (c22) {\textbf{WP~2200} \\ Basic Control of Sensors and Motors };
+    \node [below=of c22] (c23) {\textbf{WP~2300} \\ Backend Development with Focus on Modularity };
 
-    \node [below=of c3, xshift=10pt] (c31) {\textbf{WP~3100} \\ Sub Task 2.1};
-    \node [below=of c31] (c32) {\textbf{WP~3200} \\ Sub Task 2.2};
-    \node [below=of c32] (c33) {\textbf{WP~3300} \\ Sub Task 2.3};
-    \node [below=of c33] (c34) {\textbf{WP~3400} \\ Sub Task 2.4};
+    \node [below=of c3, xshift=10pt] (c31) {\textbf{WP~3100} \\ Designing a UI for Displaying Realtime Data and User Inputs};
+    \node [below=of c31] (c32) {\textbf{WP~3200} \\ Development Phase 1: Using JS Libraries, HTML, CSS};
+    \node [below=of c32] (c33) {\textbf{WP~3300} \\ Finalizing Frontend Application};
+    % \node [below=of c33] (c34) {\textbf{WP~3400} \\ } ;
 
-    \node [below=of c4, xshift=10pt] (c41) {\textbf{WP~4100} \\ Sub Task 3.1};
-    \node [below=of c41] (c42) {\textbf{WP~4200} \\ Sub Task 3.2};
+    \node [below=of c4, xshift=10pt] (c41) {\textbf{WP~4100} \\ Developing and Initializing Web-Sockets};
+    \node [below=of c41] (c42) {\textbf{WP~4200} \\ Running Real time Communications between Sub-Systems};
 
     \end{scope}
 
@@ -53,7 +53,7 @@
     \foreach \value in {1,2,3}
         \draw[->] ([xshift=4pt]c2.south west) |- (c2\value.west);
 
-    \foreach \value in {1,2,3,4}
+    \foreach \value in {1,2,3}
         \draw[->] ([xshift=4pt]c3.south west) |- (c3\value.west);
 
     \foreach \value in {1,2}
@@ -95,27 +95,39 @@
         \gantttitlelist{1,...,16}{1} \\
 
         \ganttgroup{WP 1000: Literature Research}{1}{5} \\
-        \ganttbar{WP 1100: Literature Topic 1}{1}{3} \\
-        \ganttbar{WP 1200: Literature Topic 2}{2}{4} \\
-        \ganttbar{WP 1300: Literature Topic 3}{2}{5} \\
+        \ganttbar{Mechanics of hierarchical adhesion structures of geckos}{1}{3} \\
+        \ganttbar{Space applications for Gecko inspired adhesives}{2}{4} \\
+        \ganttbar{Bioinspired Dry Adhesives for Space Applications}{2}{5} \\
         \\
-        \ganttgroup{WP 2000: Main Task 1}{4}{8} \\
-        \ganttbar{WP 2100: Sub Task 1.1}{4}{6} \\
-        \ganttbar{WP 2200: Sub Task 1.2}{6}{7} \\
-        \ganttbar{WP 2300: Sub Task 1.3}{7}{8} \\
-        \ganttmilestone{Milestone 1}{8} \\
+        \ganttgroup{Python - RaspBerry Pi Interface
+                    Development}{4}{9} \\
+        \ganttbar{Setting Up Python Development Environment in Raspberry Pi}{4}{5} \\
+
+        \ganttbar{Basic Control of Sensors and Motors}{5}{7} \\
+                            
+        \ganttbar{Backend Development with Focus on Modularity}{7}{9} \\
+        
+        \ganttmilestone{Preliminary Design Review}{9} \\
         \\
-        \ganttgroup{WP 3000: Main Task 2}{4}{11} \\
-        \ganttbar{WP 3100: Sub Task 2.1}{4}{5} \\
-        \ganttbar{WP 3200: Sub Task 2.2}{5}{6} \\
-        \ganttbar{WP 3300: Sub Task 2.3}{6}{8} \\
-        \ganttbar{WP 3400: Sub Task 2.4}{7}{11} \\
-        \ganttmilestone{Milestone 2}{11} \\
+        \ganttgroup{Application Frontend Development}{4}{11} \\
+        \ganttbar{Designing a UI
+            for Displaying
+            Realtime Data
+            and User Inputs}{4}{5} \\
+        \ganttbar{Developement
+            Phase 1: Using JS Libraries,
+            HTML, CSS}{5}{8} \\
+            \ganttbar{Finalizing Frontend Application}{8}{10} \\
+        \ganttmilestone{Critical Design Review}{11} \\
         \\
-        \ganttgroup{WP 4000: Main Task 3}{8}{12} \\
-        \ganttbar{WP 4100: Sub Task 3.1}{8}{12} \\
-        \ganttbar{WP 4200: Sub Task 3.2}{8}{12} \\
-        \ganttmilestone{Milestone 3}{12} \\
+        \ganttgroup{Realtime Data
+    Links Development - Sockets}{10}{12} \\
+        \ganttbar{Developing and
+    Initializing Web-Sockets}{10}{11} \\
+        \ganttbar{Running Real
+    time Communications between
+    Sub-Systems}{11}{12} \\
+        \ganttmilestone{Final Presentation}{12} \\
         \\
         \ganttgroup{WP 5000: Documentation}{1}{16} \\
         \ganttmilestone{Draft}{12} \\
@@ -131,7 +143,7 @@
 
 \subsection{Work Package Description}
 
-\newcommand{\wpddate}{27.09.2021}
+\newcommand{\wpddate}{}
 %%%%
 % WP1000 - Literature Research
 %%%%
@@ -144,35 +156,35 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 1100}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Literature Topic 1}}
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Mechanics of Hierarchical Adhesion Structures of Geckos}}
             & \textbf{Page:} 1 of 1\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Roshan, Ateeb, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date: 21.04.2025} \\
             \hline\hline
             \textbf{Start} & \multicolumn{2}{l||}{Week 1} & \\
             \hline
-            \textbf{End} & \multicolumn{2}{l||}{Week 3} & \textbf{Duration}: 3 Weeks\\
+            \textbf{End} & \multicolumn{2}{l||}{Week 3} & \textbf{Duration}: 1 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Roshan Kumar Gupta}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Gain knowledge about the literature research topic 1}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Gain a deep understanding of the current state of the art on research topic 1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Investigate bioinspired dry adhesives for space use}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Optimize testbed for hierarchical adhesion analysis}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Journal papers on literature topic 1}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Conference papers on literature topic 1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Journal papers on bioinspired dry adhesives}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Conference papers on gecko adhesion structures}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Collaboration with TU Berlin and Fraunhofer team}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature research literature topic 1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature research on mechanics of hierarchical adhesion structures of geckos}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Basic knowledge about literature topic 1}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Deeper knowledge about literature topic 1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Basic knowledge about mechanics of hierarchical adhesion structures of geckos}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Deeper knowledge about mechanics of hierarchical adhesion structures of geckos}\\
             \hline
         \end{tabular}
     \end{center}
@@ -188,36 +200,35 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 1200}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Literature Topic 2}}
-            & \textbf{Page:} 1 of 1\\
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Space Applications for Gecko-Inspired Adhesives}}
+            & \textbf{Page:} 1 of 2\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date:28.04.2025} \\
             \hline\hline
             \textbf{Start} & \multicolumn{2}{l||}{Week 2} & \\
             \hline
-            \textbf{End} & \multicolumn{2}{l||}{Week 4} & \textbf{Duration}: 3 Weeks\\
+            \textbf{End} & \multicolumn{2}{l||}{Week 4} & \textbf{Duration}: 1 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Get insight into literature topic 2}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Gather state-of-the-art information on literature topic 2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Investigate space applications of gecko-inspired adhesives}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Optimize testbed for space-relevant adhesion analysis}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature on literature topic 2}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature on literature topic 2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Journal papers on gecko-inspired adhesives}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Conference papers on space applications of adhesives}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$bullet$ Collaboration with TU Berlin and Fraunhofer team}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature research on literature topic 2}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature research on literature topic 2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Literature research on space applications for gecko-inspired adhesives}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Basic knowledge on literature topic 2}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Basic knowledge on literature topic 2 in general}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Basic knowledge about space applications for gecko-inspired adhesives}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Deeper knowledge about space applications for gecko-inspired adhesives}\\
             \hline
         \end{tabular}
     \end{center}
@@ -233,21 +244,22 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 1300}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Literature Topic 3}}
-            & \textbf{Page:} 1 of 1\\
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Bioinspired Dry Adhesives for Space Applications}}
+            & \textbf{Page:} 1 of 3\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date: 05.05.2025} \wpddate\\
             \hline\hline
             \textbf{Start} & \multicolumn{2}{l||}{Week 2} & \\
             \hline
             \textbf{End} & \multicolumn{2}{l||}{Week 5} & \textbf{Duration}: 4 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Get insight into literature topic 3, to be able to derive decisions and requirements about stuff}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Investigate bioinspired dry adhesives for space use}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ }\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Documentation of literature topic 3}\\
@@ -279,37 +291,36 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 2100}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 1.1}}
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Setting Up
+Python Development Environment in Raspberry Pi}}
             & \textbf{Page:} 1 of 1\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date: } 19.05.2025 \\
             \hline\hline
             \textbf{Start} & \multicolumn{2}{l||}{Week 4} & \\
             \hline
-            \textbf{End} & \multicolumn{2}{l||}{Week 6} & \textbf{Duration}: 3 Weeks\\
+            \textbf{End} & \multicolumn{2}{l||}{Week 5} & \textbf{Duration}: 1 Week\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Identify needs and characteristics for sub task 2.1}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Identify requirements and expected performance}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Identify constraints}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Setup development environment including Github, Visual Studio IDE and SSH for remote access.}\\
+
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Documentation, haha }\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Documentation of other stuff xD}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ None }\\
+
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP 1100} Input from the literature research}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ This is a base WP, other WPs are dependent on this.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Precisely define the thingy to be defined in sub task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Same as in goals}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Requirements for development thingy}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Furhter results}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ An environment is setup which enables contributors to start working.}\\
             \hline
         \end{tabular}
     \end{center}
@@ -325,37 +336,33 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 2200}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 1.2}}
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Basic Control of Sensors and Motors}}
             & \textbf{Page:} 1 of 1\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date:} 26.05.2025 \\
             \hline\hline
-            \textbf{Start} & \multicolumn{2}{l||}{Week 6} & \\
+            \textbf{Start} & \multicolumn{2}{l||}{Week 5} & \\
             \hline
-            \textbf{End} & \multicolumn{2}{l||}{Week 7} & \textbf{Duration}: 2 Weeks\\
+            \textbf{End} & \multicolumn{2}{l||}{Week 7} & \textbf{Duration}: 3 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Compare the current state of the stuff to the previous defined requirements}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Additional Goal}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Motors and Sensors are controlled through Python Interface}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Results from WPXXXX}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input from WPXXXX}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Results from WP 2100}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} Connection to this workpkg}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} Connection to this workpkg}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Future WPs depend on this. Since we are working serially.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-A of Sub Task 1.2}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-B of Sub Task 1.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Produce Code which can control motors and sensors of testbed when executed.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result of Sub Task 1.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Yet to be worked on.}\\
             \hline
         \end{tabular}
     \end{center}
@@ -371,37 +378,33 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 2300}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 1.3}}
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Backend Development with Focus on Modularity}}
             & \textbf{Page:} 1 of 1\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date:} 10.06.2025 \\
             \hline\hline
-            \textbf{Start} & \multicolumn{2}{l||}{Week 6} & \\
+            \textbf{Start} & \multicolumn{2}{l||}{Week 7} & \\
             \hline
-            \textbf{End} & \multicolumn{2}{l||}{Week 8} & \textbf{Duration}: 2 Weeks\\
+            \textbf{End} & \multicolumn{2}{l||}{Week 9} & \textbf{Duration}: 2 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-A of Sub Task 1.3}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-B of Sub Task 1.3}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ A fully fledged, modular Backend framework for controlling all components of TestBed}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Results from WPXXXX}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input from WPXXXX}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Results from WP2200 are extended here.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} connection to this workpg}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} connection to this workpg}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-A of Sub Task 1.3}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-B of Sub Task 1.3}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Write a framework-like which controls all sensors and motors of testbed.}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Make sure the application is modular and testbed modules can be swapped with no effect on working of application}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result of Sub Task 1.3}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ An executable file for testbed control.}\\
             \hline
         \end{tabular}
     \end{center}
@@ -421,38 +424,35 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 3100}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 2.1}}
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Designing a UI for Displaying Realtime Data and User Inputs}}
             & \textbf{Page:} 1 of 1\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date:} 19.05.2025\\
             \hline\hline
             \textbf{Start} & \multicolumn{2}{l||}{Week 4} & \\
             \hline
             \textbf{End} & \multicolumn{2}{l||}{Week 5} & \textbf{Duration}: 2 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal of Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ To have an approved UI design, which can be implemented in the next work package. }\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-A for Sub Task 2.1}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-B for Sub Task 2.1}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-C for Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Team input to decide if a UI deisgn has all the needed elements to display testbed state and capture user inputs.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} connection to this workpkg}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} connection to this workpkg}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX} connection to this workpkg}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ This WP is base for all UI related sub-tasks.}\\
+
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task of Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ To create a UI design using Figma or other design prototyping software.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result-A of Sub Task 2.1}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result-B of Sub Task 2.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ An approved UI specification which is ready to be developed.}\\
+            
             \hline
         \end{tabular}
     \end{center}
@@ -468,38 +468,37 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 3200}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 2.2}}
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Developement Phase 1: Using JS Libraries, HTML, CSS}}
             & \textbf{Page:} 1 of 1\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date:} 26.05.2025 \\
             \hline\hline
             \textbf{Start} & \multicolumn{2}{l||}{Week 5} & \\
             \hline
-            \textbf{End} & \multicolumn{2}{l||}{Week 6} & \textbf{Duration}: 2 Weeks\\
+            \textbf{End} & \multicolumn{2}{l||}{Week 8} & \textbf{Duration}: 4 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-A of Sub Task 2.2}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-B of Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ A fully developed and deployment-ready UI application}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-A for Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Design from the previous WP.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-B for Sub Task 2.2}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX/XXXX} connection to these workpkgs}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ \textbf{WP XXXX/XXXX} connection to these workpkgs}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Depends on \textbf{WP 3100}}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-A of Sub Task 2.2}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-B of Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Create a structure of the application using HTML.}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Use a suitable JS library for two data-bindings.}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Use CSS for sufficent styling.}\\
+
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result-A of Sub Task 2.2}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result-B of Sub Task 2.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ A deployable JS bundle, which can be used to display data from python backend.}\\
             \hline
         \end{tabular}
     \end{center}
@@ -515,74 +514,34 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 3300}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 2.3}}
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Finalizing Frontend Application}}
             & \textbf{Page:} 1 of 1\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date:}  17.07.2025 \\
             \hline\hline
-            \textbf{Start} & \multicolumn{2}{l||}{Week 6} & \\
+            \textbf{Start} & \multicolumn{2}{l||}{Week 8} & \\
             \hline
-            \textbf{End} & \multicolumn{2}{l||}{Week 8} & \textbf{Duration}: 3 Weeks\\
+            \textbf{End} & \multicolumn{2}{l||}{Week 9} & \textbf{Duration}: 1 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
-            \hline\hline
-            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal of Sub Task 2.3}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input for Sub Task 2.1}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task of Sub Task 2.3}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result of Sub Task 2.3}\\
-            \hline
-        \end{tabular}
-    \end{center}
-\end{table}
-
-\clearpage
-
-\begin{table}[!h]
-    \begin{center}
-        \begin{tabular}{|p{.2\columnwidth}||p{.3\columnwidth}|p{.27\columnwidth}||p{.23\columnwidth}|}
-            \hline
-            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
-            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 3400}}\\
-            \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
-            \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 2.4}}
-            & \textbf{Page:} 1 of 1\\
-            \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
-            \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
-            \hline\hline
-            \textbf{Start} & \multicolumn{2}{l||}{Week 7} & \\
-            \hline
-            \textbf{End} & \multicolumn{2}{l||}{Week 11} & \textbf{Duration}: 5 Weeks\\
-            \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal of Sub Task 2.4}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Finalize the frontend code and iron out any bugs.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-A for Sub Task 2.4}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input-B for Sub Task 2.4}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input from WP 3200}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+                        \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Dependent on \textbf{WP 3200}}\\
+
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task of Sub Task 2.4}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Test the frontend application and iron out any bugs if found.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result of Sub Task 3.4}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ A well tested and optimized frontend application made using HTML, JS and CSS}\\
             \hline
         \end{tabular}
     \end{center}
@@ -602,32 +561,33 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 4100}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 3.1}}
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Developing and Initializing Web-Sockets}}
             & \textbf{Page:} 1 of 1\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date:} 31.07.2025\\
             \hline\hline
-            \textbf{Start} & \multicolumn{2}{l||}{Week 8} & \\
+            \textbf{Start} & \multicolumn{2}{l||}{Week 10} & \\
             \hline
-            \textbf{End} & \multicolumn{2}{l||}{Week 12} & \textbf{Duration}: 5 Weeks\\
+            \textbf{End} & \multicolumn{2}{l||}{Week 11} & \textbf{Duration}: 2 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal of Sub Task 3.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Learn about Web-Sockets and use them as a communication channel.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input for Sub Task 3.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input from \textbf{WP 2300} and \textbf{WP 3300}}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Dependent on \textbf{WP 2300} and \textbf{WP 3300}}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task of Sub Task 3.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Learn about Web sockets and use the relevent libraries in both frontend and backend to start communication channel.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Result of Sub Task 3.1}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Successful data transmission between frontend and backend.}\\
             \hline
         \end{tabular}
     \end{center}
@@ -643,34 +603,34 @@
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{\textbf{WP 4200}}\\
             \multicolumn{3}{|l||}{\textbf{}} & \multicolumn{1}{c|}{}\\
             \hline\hline
-            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Sub Task 3.2}}
+            \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Running Real time Communications between Sub-Systems}}
             & \textbf{Page:} 1 of 1\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date:} 07.08.2025 \\
             \hline\hline
-            \textbf{Start} & \multicolumn{2}{l||}{Week 8} & \\
+            \textbf{Start} & \multicolumn{2}{l||}{Week 11} & \\
             \hline
-            \textbf{End} & \multicolumn{2}{l||}{Week 12} & \textbf{Duration}: 5 Weeks\\
+            \textbf{End} & \multicolumn{2}{l||}{Week 12} & \textbf{Duration}: 1 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-A of Sub Task 3.2}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Goal-B of Sub Task 3.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Successful Real-time data transmission between frontend and backend.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Input:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Input for Sub Task 3.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ None}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Connections to other WPs:}}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Depends on previous \textbf{WP 4200}}\\
+            
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Tasks:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-A of Sub Task 3.2}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Task-B of Sub Task 3.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ As in title above.}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Results:}}\\
-            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Results of Sub Task 3.2}\\
+            \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Final seamless communication between sub-systems. }\\
             \hline
         \end{tabular}
     \end{center}
@@ -693,15 +653,15 @@
             \textbf{Title} & \multicolumn{2}{p{.40\columnwidth}||}{\textbf{Documentation}}
             & \textbf{Page:} 1 of 1\\
             \hline
-            \textbf{Responsible} & \multicolumn{2}{l||}{Ame Watson} & \textbf{Version:} 1.0\\
+            \textbf{Responsible} & \multicolumn{2}{l||}{Ateeb, Roshan, Vassili} & \textbf{Version:} 1.0\\
             \hline
-            \multicolumn{3}{|l||}{} & \textbf{Date:} \wpddate\\
+            \multicolumn{3}{|l||}{} & \textbf{Date:} 21.04.2025\\
             \hline\hline
             \textbf{Start} & \multicolumn{2}{l||}{Week 1} & \\
             \hline
             \textbf{End} & \multicolumn{2}{l||}{Week 16} & \textbf{Duration}: 16 Weeks\\
             \hline\hline
-            \textbf{Processed by} & \multicolumn{3}{l|}{Ame Watson}\\
+            \textbf{Processed by} & \multicolumn{3}{l|}{Ateeb, Roshan, Vassili}\\
             \hline\hline
             \multicolumn{4}{|p{.95\columnwidth}|}{\textbf{Goals:}}\\
             \multicolumn{4}{|p{.95\columnwidth}|}{$\bullet$ Documentation of work on all WPs}\\
