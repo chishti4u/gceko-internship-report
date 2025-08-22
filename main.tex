@@ -23,6 +23,7 @@
 \usepackage{hyperref}
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{abstract}
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
 \renewcommand{\arraystretch}{1.15}
@@ -88,7 +89,6 @@
 \makeglossaries
 
 \title{Firmware for Gecko Testbed: Applications in Capturing Orbital Debris}
-% \subtitle{Turning Humans into Space Scientists since 2003}
 \author{
     \begin{minipage}[t]{.8\textwidth}
         \centering
@@ -104,14 +104,9 @@
 \maketitle
 
 \begin{abstract}
-Following the title, the abstract is the \textbf{second} most frequently read part of a scientific paper.
-It informs about the general content and determines the paper's relevance for the reader.
-It is good practice to write the abstract when writing the paper is \textbf{finished} in a way that it condenses and summarizes the content of the paper.
-Only start writing the abstract when all required research and work has been finished.
-Make the abstract one paragraph without reference and use about \numrange{200}{500} words.
-Be sure to only draw conclusions and make only statements that are included in the paper.
-Keep the text of the abstract in present tense.
-A good approach to drafting an abstract is to start by summarizing  each section of the paper in \numrange{1}{2} sentences.
+Since the landmark space mission Apollo 11, there has been an exponential increase in man-made objects in space. Most of these objects orbit around Earth at varying altitudes and perform specific tasks like telecommunication, navigation (GPS), space-exploration and imaging (Hubble and James Webb Telescope) etc. Today there are 7,560 satellites orbiting Earth \cite{ucs}. These satellites are prone to failure due to extreme physical conditions and contribute to ever growing Space Debris. There are active efforts underway to capture such debris. To this end, this project explores suitability of Gecko Materials in applications of capturing and removing space debris. Specifically, we provide a firmware which enables researchers to control and program a testbed to evaluate and compare different types of gecko materials and their performance in space-like conditions. In the first section, we talk about the problem in more detail, describe the testbed and its components and finally lay out the requirements that needs to be satisfied by this software package. Second section breaks down the software package into its components and describes the working of each individual component in detail, further we also provide a step-by-step guide on how to use the developed User Interface, lastly this section also provides a table which lists all the requirements and contrast them against the developed features. Section 3, provides insights and discussion on the scope and findings of this project and future directions.
+
+
 \end{abstract}
 \end{@twocolumnfalse}
 ]
@@ -119,10 +114,12 @@ A good approach to drafting an abstract is to start by summarizing  each section
 
 %------------------------------------------------------------------------------	
 %------------------------------------------------------------------------------	
-\section{Introduction}
 %------------------------------------------------------------------------------
+
+
+\section{Introduction \textnormal{(By Ateeb  Ahmed)}}
 In the last century mankind has made unprecedented technological advances and discoveries. Naturally, Space exploration, which has fascinated all civilizations that have existed, also had a breakthrough in the previous century when USA launched Apollo 11 on 26th July 1969 to Moon. While this project was mainly targeted to explore the lunar surface. Since then many other such objects are sent in space but only to perform specific tasks like communication, observation and scientific research. These objects usually orbit around Earth and are called Satellite. 
-Currently, there are 7,560 satellites orbiting Earth \cite{ucs}. But keeping these satellites operational require constant maintainance since they are exposed to extreme temperatures, radiation and micro-meteoroids. Unfortunately, not all satellites stay operational through out their mission and gracefully leave the orbit. Some gets destroyed during deployment, or lose contact and control from Earth due to communication issues. These dead satellites and other small objects created due to some form of damage to existing satellites are collectively called "Space Debris". 
+Currently, there are 7,560 satellites orbiting Earth \cite{ucs}. But keeping these satellites operational require constant maintenance since they are exposed to extreme temperatures, radiation and micro-meteoroids. Unfortunately, not all satellites stay operational through out their mission and gracefully leave the orbit. Some gets destroyed during deployment, or lose contact and control from Earth due to communication issues. These dead satellites and other small objects created due to some form of damage to existing satellites are collectively called "Space Debris". 
 There are currently 32,750 cataloged and tracked debris objects, these 50 cm or more in size and traveling at a speed of 3 km/s \cite{space_junk}. \\
 
 These objects also travel with a random trajectory and are not predictable. Collision with this debris can be fatal for not only existing operational satellites but also for future deployments. To this end, ClearSpace SA, a Swiss startup, is developing a device resembling a four-armed "space claw" that would grip junk satellites and de-orbit them. The project is expected to go live in late 2029, and intends to de-orbit a special kind of space debris called VESPA (Vega Secondary Payload Adapter) \cite{clear_space}. 
@@ -289,7 +286,7 @@ Emergency Stop immediately drops motor control outputs and emits an operator log
 
 % ------------------------------------------------------------------------------
 
-\section{Sensor Calibration \& Safety Mechanisms \textnormal{(Delivered by Roshan Kumar Gupta)}}
+\section{Sensor Calibration \& Safety Mechanisms \textnormal{(Delivered by Ateeb Ahmed)}}
 \label{sec:calibration}
 
 \subsection{Calibration Method (Manufacturer Two-Point)}
@@ -319,7 +316,7 @@ Global force cap (default 10\,N), ever-present E-Stop, graceful Stop, and post-r
 
 % ------------------------------------------------------------------------------
 
-\section{StepBuilder — Operator Guide \& Safety \textnormal{(Delivered by Roshan Kumar Gupta)}}
+\section{StepBuilder — Operator Guide \& Safety \textnormal{(Delivered by Ateeb Ahmed)}}
 \label{sec:stepbuilder}
 
 \subsection{Purpose}
@@ -564,16 +561,281 @@ Live \textbf{step counts} per axis
 \end{table*}
 
 
+\section{Conclusion \textnormal{(Delivered by Vassilios Papadopoulos)}}
 
-%------------------------------------------------------------------------------	
-\section{Discussion}
-%------------------------------------------------------------------------------	
+\subsection{Validation of the Testbed on Earth}
+
+The developed gecko-inspired adhesion testbed has first been validated under terrestrial laboratory conditions. 
+Initial experiments demonstrated that the combination of a high-precision force sensor and automated software control loops 
+allows for reproducible adhesion and detachment measurements across a large number of cycles. 
+Unlike manual test procedures, which are limited by operator accuracy and fatigue, the automated system can execute 
+precisely defined loading–unloading sequences with high repeatability. 
+This capability is critical for assessing long-term performance of micropatterned dry adhesives (MDA), 
+where subtle changes in force profiles over hundreds or thousands of repetitions may indicate degradation of surface structures or material fatigue.  
+
+The integration of software-based closed-loop control further enhances the stability of the experimental setup. 
+The implemented routines manage motor speed, preload forces, dwell times, and detachment trajectories in a way that minimizes variability between test runs. 
+This not only improves confidence in the measurement data, but also reduces human-induced bias. 
+Particularly for adhesives whose performance depends strongly on contact geometry and loading history, 
+automation is indispensable to generate meaningful datasets for later comparison with results obtained in microgravity environments.  
+
+A key feature of the testbed is its ability to maintain constant normal forces during adhesion testing. 
+Force feedback from the sensor is processed in real time by the control software, 
+enabling rapid adjustment of the actuator position to compensate for surface irregularities or environmental disturbances. 
+This ensures that the desired preload values are applied consistently, a prerequisite for studying the sensitivity of gecko adhesives to initial contact conditions.  
+
+Moreover, the validation phase confirmed the robustness of the hardware components. 
+The linear actuator, load cell, and mounting frame remained stable under extended operation, 
+allowing tests of several thousand adhesion cycles without measurable drift in calibration. 
+This establishes the platform as a reliable tool for systematic material studies, paving the way for subsequent adaptation to reduced-gravity scenarios.  
+
+In summary, the terrestrial validation confirms that the testbed provides accurate, repeatable, and scalable measurement of gecko-inspired adhesives. 
+This baseline is essential before transferring the system to constrained environments such as parabolic flights, drop tower experiments, or even orbital missions.
 
 
-%------------------------------------------------------------------------------	
-\section{Conclusion}
-%------------------------------------------------------------------------------	
+\subsection{Scalability to Microgravity Platforms}
 
+While the testbed has proven effective under terrestrial conditions, 
+its true potential lies in adapting the hardware and software for operation in reduced-gravity environments. 
+Several experimental platforms are available within Europe that provide access to microgravity conditions, 
+each with unique constraints in terms of duration, size, power availability, and environmental robustness. 
+The following subsections outline how the testbed can be scaled and adjusted to these platforms, 
+highlighting both the opportunities and limitations of each environment.
+
+\subsubsection{ESA Fly Your Thesis}
+Parabolic flights provide repeated intervals of approximately 20~seconds of microgravity per parabola. 
+This offers the advantage of a relatively high number of test repetitions within a single campaign, 
+allowing different adhesive samples or loading regimes to be investigated under similar flight conditions. 
+However, the short duration of each microgravity phase requires highly efficient and fast experimental routines, 
+forcing a trade-off between motor speed and precision of the applied motion profiles.
+
+To meet the constraints of parabolic flight, significant modifications to the current testbed are necessary. 
+These include a substantial reduction in system mass, integration into the standardized aircraft rack format 
+(approx.\ 50$\times$50$\times$80\,cm), and autonomous power supply. 
+Moreover, the software must be capable of reliably executing complete adhesion–detachment cycles within the short time window, 
+with automatic synchronization to the onset of microgravity phases.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{pics/fly.png}
+    \caption{2014 MDA Tests in-flight by ESA}
+    \label{fig:fly}
+\end{figure}
+
+
+\subsubsection{ESA Orbit Your Thesis}
+The Orbit Your Thesis program extends the parabolic flight concept to long-duration orbital platforms. 
+Here, the same fundamental constraints apply with respect to size, weight, and autonomy, 
+but the experimental time is vastly increased compared to parabolic flights. 
+This enables more systematic testing, including long-term degradation studies, 
+radiation exposure experiments, and automated sequences across weeks or months of operation.  
+
+The adaptation requirements for this platform are similar to those of Fly Your Thesis—miniaturization, 
+rack compatibility, and robust autonomous operation. 
+However, the longer time frame provides opportunities to integrate 
+advanced diagnostic routines and self-calibration features within the software. 
+The combination of repeatable orbital cycles and extended exposure to the space environment 
+makes this a promising platform for bridging ground validation with future operational use in Active Debris Removal missions.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{pics/orbit.png}
+    \caption{2020: MDA Tests on the ISS}
+    \label{fig:orbit}
+\end{figure}
+
+\subsubsection{Bremen Drop Tower}
+The Bremen Drop Tower offers highly controlled microgravity conditions for durations between 4.74 and 9.3~seconds, 
+depending on whether the catapult mode is used. 
+In principle, this facility could be used to test the gecko-inspired adhesion testbed, 
+as it provides true free-fall conditions without vibrations or turbulence.  
+
+However, the extremely short time window places significant restrictions on the types of experiments that can be performed. 
+Even with optimized control software, a complete adhesion cycle involving approach, contact formation, 
+force measurement, and detachment is difficult to achieve within only a few seconds. 
+At best, the system could perform a very rapid approach and a preliminary contact test, 
+but there would be little opportunity to record high-quality force data or to repeat the experiment for statistical evaluation.  
+
+From an economic perspective, the drop tower is also less attractive compared to parabolic flight campaigns. 
+The cost of preparing and executing a drop experiment is high relative to the small amount of usable data that can be collected, 
+making it inefficient as a platform for systematic adhesive testing.  
+
+Therefore, while technically possible, the Bremen Drop Tower is not considered a suitable environment for 
+comprehensive testing of the gecko adhesion testbed. 
+Its role may be limited to quick proof-of-concept demonstrations or rapid-deployment tests, 
+but meaningful measurements of adhesion dynamics would require longer-duration platforms such as parabolic flights or orbital missions.
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{pics/bremen.png}
+    \caption{Bremen Drop Tower facility with conceptual experiment capsule.}
+    \label{fig:bremen}
+\end{figure}
+
+
+In summary, the testbed is inherently scalable across different microgravity platforms, 
+with each environment offering specific advantages and limitations. 
+Parabolic flights allow repeated testing, orbital missions enable long-term exposure, 
+and drop tower experiments deliver clean free-fall conditions. 
+Together, these platforms form a progressive pathway for validating gecko-inspired adhesives under increasingly realistic space conditions.
+
+
+\subsection{Scientific Basis of Gecko-Inspired Adhesion in Space}
+
+The central principle underlying gecko-inspired adhesion is the utilization of van der Waals (vdW) forces, 
+which arise from intermolecular interactions at the contact interface between an adhesive surface and its counterpart. 
+These forces are quantum-mechanical in nature and act independently of the gravitational field, 
+making them fundamentally suitable for application in microgravity environments. 
+Unlike suction-based adhesion systems, which depend on ambient pressure differences and are largely ineffective in vacuum, 
+vdW adhesion is equally present in space as on Earth.  
+
+Experimental and theoretical studies consistently show that the contact mechanics of micropatterned dry adhesives (MDA) 
+are dominated by these van der Waals interactions. 
+The magnitude of the adhesive force depends strongly on the effective contact area between the adhesive microstructures 
+and the target surface. 
+This insight has driven the design of synthetic structures with optimized geometries, 
+such as mushroom-shaped terminal features, which maximize real contact area while maintaining the ability to detach cleanly.  
+These geometries not only enhance adhesion on smooth surfaces but also improve tolerance to surface irregularities, 
+which is essential when considering the heterogeneous surface properties of space debris.  
+
+Another key aspect is that gecko-inspired adhesives are inherently reversible and self-cleaning to some extent. 
+Their attachment relies on weak intermolecular interactions rather than chemical bonding or surface damage, 
+allowing repeated use without contamination of the substrate. 
+This reversibility is highly advantageous for on-orbit servicing and debris removal, 
+where multiple docking and detachment operations may be required under varying conditions.  
+
+It is worth noting that earlier debates on potential suction contributions to gecko adhesion have largely been resolved in the context of space. 
+Under vacuum conditions, suction plays at most a negligible role, 
+and adhesion is overwhelmingly governed by van der Waals forces. 
+This understanding reinforces confidence that the observed adhesive performance on Earth can be translated to the orbital environment 
+without loss of the underlying physical mechanism.  
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{pics/gecko.png}
+    \caption{Adhesive feet of a gecko with a surface, made up of hundreds of thousands of hairs (setae)}
+    \label{fig:gecko}
+\end{figure}
+
+Taken together, these findings establish a strong scientific foundation for the use of gecko-inspired adhesives in space. 
+By relying on van der Waals forces that are unaffected by gravity or atmospheric pressure, 
+MDA systems offer a robust and scalable approach for gripping and manipulating objects in orbit. 
+The next step lies in evaluating how environmental stressors specific to space, such as radiation and atomic oxygen, 
+affect the long-term performance of these materials.
+
+
+\subsection{Environmental Influences and Open Questions}
+
+While the scientific basis of van der Waals adhesion ensures that the fundamental adhesive forces remain 
+effective in microgravity and vacuum, the performance of micropatterned dry adhesives (MDA) 
+is still strongly influenced by environmental factors present in space. 
+These conditions can alter material properties, surface chemistry, or mechanical stability, 
+and therefore must be critically evaluated in the context of orbital applications.  
+
+Radiation represents one of the most significant challenges. 
+High-energy particles and ultraviolet radiation are known to induce degradation in many polymeric materials, 
+leading to embrittlement, loss of elasticity, and surface cracking. 
+For MDA fabricated from polyurethane or similar polymers, 
+long-term exposure can reduce adhesion strength by altering the flexibility of the microstructures. 
+Preliminary irradiation tests have confirmed a measurable decline in performance after extended radiation doses, 
+underscoring the need for either protective coatings or the development of radiation-resistant polymers.  
+
+Thermal cycling in low Earth orbit exposes materials to temperature swings from approximately $-100\,^{\circ}$C to $+100\,^{\circ}$C 
+over the course of each orbit. 
+
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{pics/spaceenv.png}
+    \caption{Harsh space environment, affecting the adhesion force of a MDA in the long term.}
+    \label{fig:spaceenv}
+\end{figure}
+
+Interestingly, adhesion tests conducted under laboratory-controlled thermal variations suggest that 
+polyurethane-based adhesives retain their functionality across this range. 
+No significant mechanical failures were observed, 
+indicating that thermal effects may be less critical than initially assumed. 
+Nonetheless, prolonged cycling could induce fatigue in the adhesive backing materials or supporting structures, 
+requiring additional investigation.  
+
+Vacuum exposure itself does not diminish van der Waals forces, 
+but it can lead to desorption of absorbed water and volatile contaminants from the adhesive surfaces. 
+Controlled experiments in vacuum chambers have shown that adhesion values remain largely stable, 
+suggesting that this effect is negligible for short-term operations. 
+However, multi-month exposure in orbit could still produce subtle changes in surface chemistry that merit attention.  
+
+A particularly critical factor is the presence of atomic oxygen in low Earth orbit. 
+Reactive oxygen species are highly erosive and can etch polymer surfaces on a microscopic scale, 
+directly degrading the adhesive microstructures that are essential for contact formation. 
+Unlike thermal or vacuum effects, atomic oxygen erosion poses a direct threat to the long-term viability of gecko-inspired adhesives. 
+Protective surface treatments, such as thin oxide coatings, may be required to mitigate this effect.  
+
+% TODO: Figure suggestion: Table or schematic summarizing key environmental stressors 
+% (Radiation, Thermal Cycling, Vacuum, Atomic Oxygen) with arrows showing their impact on adhesion performance.  
+
+In summary, although van der Waals adhesion is fundamentally robust in space, 
+the durability of micropatterned dry adhesives depends on the resilience of the underlying material system 
+to radiation, atomic oxygen, and cumulative thermal cycling. 
+Future research should prioritize long-duration in-situ testing and material optimization 
+to ensure that adhesive performance is maintained throughout operational lifetimes in orbit. 
+These open questions must be resolved before MDA technology can transition from laboratory demonstrations to real-world space missions.
+
+
+\subsection{Required Adjustments in Hardware and Software}
+
+Moving the testbed from a laboratory setup to a flight-ready system means that both hardware and software need to be adapted. 
+The current version works well on Earth, but it is too large and too dependent on external power and control to be used directly in a microgravity campaign.  
+
+On the hardware side, weight and size are the biggest limitations. 
+For parabolic flights, all equipment has to fit into the standardized aircraft racks (about $50 \times 50 \times 80$\,cm). 
+This means that actuators, mounting structures, and electronics will need to be redesigned with lighter materials and in a more compact layout. 
+Battery power is also essential, since continuous lab power is not available. 
+At the same time, the system has to remain mechanically stable and precise enough to run the same adhesion loops that were demonstrated on the ground.  
+
+For the software, the main challenge is autonomy. 
+During a parabolic flight there is very little time for manual control, 
+so the testbed must be able to recognize the start of the microgravity phase, 
+run a full adhesion cycle on its own, and save all data without errors. 
+The routines also need to be simple and reliable, because failed cycles mean lost opportunities.  
+
+Finally, the experiments have to be focused. 
+In the limited time available it is not possible to test everything, 
+so it makes sense to concentrate on patches with different pre-exposures (for example radiation or thermal cycling) 
+to compare how these conditions influence adhesion.  
+
+
+In short, the next step is to make the system smaller, lighter, and fully automatic. 
+If these adjustments are achieved, the testbed will be ready to provide useful results 
+not only in the lab but also in parabolic flights and, later on, in orbital missions.
+
+
+\subsection{Outlook}
+
+The gecko-inspired adhesion testbed represents an important step toward advancing bio-inspired gripping 
+technologies for space applications. 
+Terrestrial experiments have demonstrated that automated, repeatable adhesion testing is feasible with high precision, 
+providing a reliable foundation for further development.  
+
+Since gecko-inspired adhesives have already been demonstrated successfully in both parabolic flights 
+and orbital experiments, their fundamental suitability for space environments is established. 
+The remaining challenge is not proof of principle, but rather the preparation of compact, 
+flight-ready test systems that can operate autonomously under strict mass and volume constraints. 
+Miniaturization is therefore the key requirement—both for parabolic flight campaigns, 
+where size and weight are limited by aircraft rack standards, 
+and for orbital missions, where payload capacity and resource efficiency are critical.  
+
+With these adaptations, the testbed could serve as a versatile platform for targeted investigations, 
+including long-term material degradation, radiation effects, and repeated adhesion–detachment cycles in orbit. 
+Such studies would generate the data needed to qualify micropatterned dry adhesives 
+for integration into operational space systems.  
+
+In summary, the immediate focus must shift from demonstrating feasibility—already proven in earlier campaigns— 
+towards engineering refinement. 
+By achieving lightweight, miniaturized, and autonomous designs, 
+the gecko-inspired testbed can transition from a laboratory instrument 
+into a practical payload for future parabolic and orbital missions, 
+supporting the broader goal of enabling sustainable Active Debris Removal and on-orbit servicing technologies.
 \printbibliography
 
 \printglossaries
