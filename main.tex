@@ -13,8 +13,20 @@
 \usetikzlibrary{shapes,backgrounds, arrows, positioning, trees, shadows}
 \usepackage{pgf}
 \usepackage{pgfplots}
+\usepackage{pdflscape}
+\usepackage{graphicx}
+\usepackage{hyperref}
 \pgfplotsset{compat=1.18}
 \selectcolormodel{rgb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\renewcommand{\arraystretch}{1.15}
+\hypersetup{colorlinks=true,urlcolor=blue}
 
 \KOMAoptions{
  paper = A4,
@@ -171,12 +183,386 @@ Now that the use cases of the testbed are laid out, in the later sections we wil
 
 
 %------------------------------------------------------------------------------	
-\section{Methods}
-%------------------------------------------------------------------------------	
+% Roshan's software sections begin here. Keep teammate sections below reserved.
 
-%------------------------------------------------------------------------------	
-\section{Results}
-%------------------------------------------------------------------------------	
+\section{System Architecture \textnormal{(Delivered by Roshan Kumar Gupta)}}
+\label{sec:system-architecture}
+
+\subsection{Overview}
+The developed testbed follows a three-layer architecture consisting of the frontend interface, the backend server, and the hardware integration layer. The goal of this design is to ensure modularity, real-time responsiveness, and safe interaction between user-defined sequences and the physical setup. Figure X illustrates the overall architecture of the system.
+
+At the top layer, the web frontend acts as the primary interface between the user and the testbed. Implemented using Three.js and Vanilla JavaScript, the frontend provides a sequence builder for defining multi-axis actions, a real-time force graph, motor control buttons, and logging/export options. It communicates with the backend through REST API calls for commands and WebSocket events for live updates.
+
+The backend server, built with Flask and Flask-Socket.IO, forms the middle layer of the system. It exposes endpoints for sequence execution, emergency stop, calibration, motor checks, and data export. Additionally, the backend streams force sensor readings, motor step counts, and experiment logs to the frontend in real time. This ensures the user has continuous visibility and control during experiments.
+
+At the core logic level, the backend handles sequence execution, trigger evaluation (force, duration, step-based), and logging. Concurrency is achieved using threads, where a dedicated force poller thread continuously reads sensor data, while per-axis execution threads manage motor control. This modular approach allows the testbed to handle complex sequences while ensuring responsiveness to safety-critical events such as emergency stop signals.
+
+The hardware interface layer provides low-level communication with the physical devices. GPIO control manages the stepper motors across three axes (X, Y, Z), while serial communication integrates the multi-axis force sensor. The Raspberry Pi 5 acts as the controller, bridging the backend software with the hardware. Feedback in the form of force measurements and step counts is continuously transmitted back to the backend and relayed to the user interface.
+
+This layered architecture ensures a clean separation of concerns: the frontend focuses on visualization and usability, the backend manages logic and communication, and the hardware layer executes the actual physical tasks. Together, these modules form a reliable and extensible testbed for gecko adhesion experiments. 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{pics/gecko_architecture.drawio.png}
+  \caption{Overall system architecture showing the web frontend, backend (Flask + Socket.IO), and hardware layer (Raspberry~Pi, motor drivers, force sensor) with data and control flows.}
+  \label{fig:architecture}
+\end{figure}
+
+
+\subsection{Components}
+\textbf{Frontend (Three.js + Vanilla JS):} Interactive StepBuilder, live telemetry ($F_x, F_y, F_z$, shear), per-axis step counts, 3D visualizer, and controls (Run, Stop, Emergency Stop (E-Stop), Motor Check, Zero Sensor, Repeat, Upload/Download State, Export Logs).\\
+\textbf{Backend (Flask + Socket.IO):} HTTP actions for commands and JSON state, real-time event streaming, sequence execution threads, trigger evaluation, optional force-hold, logging, calibration/zeroing, and reset-to-origin.\\
+\textbf{Hardware layer (Raspberry Pi + drivers + force sensor):} GPIO control for X/Y/Z stepper axes and a serial multi-axis force sensor. Feedback (forces, step counts) streams to the UI in real time.
+
+\subsection{Data \& Control Flow}
+(1) \emph{Authoring:} Define a sequence in the StepBuilder (movement, triggers, optional hold, Repeat) or upload a saved JSON.\\
+
+(2) \emph{Dispatch:} The frontend sends a validated experiment description to the backend.\\
+
+(3) \emph{Orchestration:} The backend runs a continuous force-poller thread and launches per-axis worker threads.\\
+
+(4) \emph{Execution:} Workers step motors and evaluate triggers (``Any'' or ``All''). If a hold is configured, micro-movements maintain the target force until release conditions.\\
+
+(5) \emph{Telemetry:} The backend emits \texttt{force}, \texttt{step\_count}, and \texttt{log} events; the UI renders them live.\\
+
+(6) \emph{Lifecycle:} On completion—or Stop/E-Stop—the backend logs the outcome, resets axes to origin, and exposes a timestamped log for download. With Repeat, the full sequence executes $N$ times with clearly delimited iterations.
+
+\subsection{Safety \& Fault Handling}
+E-Stop immediately disables motion and raises a visible log event; a global force cap prevents out-of-range operation; Zero Sensor and calibration ensure stable force readings; reset-to-origin guarantees a known state between trials.
+
+\subsection{Extensibility \& Constraints}
+The modular design allows adding distance-based triggers, richer analytics, or a framework UI (e.g., Svelte/React) without changing core motion/telemetry logic. Real-time responsiveness depends on sensible step sizes, trigger thresholds, and hardware health.
+
+% ------------------------------------------------------------------------------
+
+\section{Frontend Implementation (Three.js + Vanilla JS) \textnormal{(Delivered by Roshan Kumar Gupta)}}
+\label{sec:frontend}
+
+\subsection{Role \& Goals}
+The frontend is the \emph{operator console}: simple for non-technical users, responsive for live experiments, and strict enough to prevent unsafe setups. Priorities: clarity, low-latency feedback, guardrails, and repeatability/sharing of configurations.
+
+\subsection{Three.js Scene}
+(1) \emph{Scene graph:} world axes, camera (orbit controls), light rig, and minimal meshes to indicate stage/axes and motion direction.\\
+
+(2) \emph{Rendering loop:} RequestAnimationFrame drives lightweight renders; UI updates are decoupled from the physics/control loops to keep 60 FPS when possible.\\
+
+(3) \emph{Responsiveness:} layout adapts between wide desktop and narrow screens; critical controls remain above the fold.\\
+
+(4) \emph{Safety affordances:} emergency stop is persistent and visually distinct; destructive actions require a single explicit click (no hidden combos).\\
+
+
+\subsection{Interface Overview}
+\textbf{Control Bar:} Run, Stop, E-Stop, Motor Check, Zero Sensor, Repeat (count), Upload/Download State, Export Logs.\\
+\textbf{StepBuilder:} Per-axis steps with direction and step size; movement-init triggers; break triggers (force/duration/steps) with \emph{Any/All} logic; optional \emph{Hold} with release triggers.\\
+\textbf{Telemetry Panel:} Live $F_x, F_y, F_z$ (and shear if shown) and per-axis step counts.\\
+\textbf{3D Visualizer:} Three.js scene providing spatial context (axes, motion cues).\\
+\textbf{Log Console:} Readable stream of step boundaries, trigger firings, hold state, stops, and errors.
+
+\subsection{Interaction \& Workflows}
+Configure or Upload a sequence; set Repeat for multi-trial tests; Run; monitor forces, step counts, logs, and 3D view; Stop (graceful) or E-Stop (immediate); Zero Sensor before force-critical runs; Motor Check for quick health; Download/Upload State to reuse setups; Export Logs for audit.
+
+\subsection{Real-Time Behavior \& Safeguards}
+WebSocket events are throttled to keep the UI responsive; forms validate unsafe combinations; connection status is visible; conflicting actions disable during active runs; E-Stop remains prominent.
+
+% ------------------------------------------------------------------------------
+
+\section{Backend Implementation (Flask + Socket.IO) \textnormal{(Delivered by Roshan Kumar Gupta)}}
+\label{sec:backend}
+
+\subsection{Role \& Boundaries}
+The backend validates and executes sequences, manages concurrency and safety, streams telemetry, and persists an auditable log. It exposes clear actions: Run, Stop, E-Stop, Motor Check, Zero Sensor, Calibration, Repeat, State Upload/Download, and Log Export.
+
+\subsection{Execution Model}
+A dedicated force-poller thread continuously converts sensor frames to $F_x, F_y, F_z$ (plus $F_{\text{shear}}$) and broadcasts updates. Per-axis worker threads step motors and evaluate triggers concurrently. Serial I/O is lock-protected; shared state (forces, step counts) updates atomically. Long-running execution remains off the request thread so the API stays responsive.
+
+\subsection{Trigger Engine \& Hold Control}
+Triggers support force thresholds (with a global safety cap), duration, and step count; each group can require \emph{Any} or \emph{All}. Motion proceeds until break triggers are satisfied. When configured, a hold loop maintains a target force within tolerance until release conditions. Significant events (initiation, trigger fired, hold start/complete) are logged and streamed.
+
+\subsection{Repeat \& Lifecycle}
+A top-level Repeat count executes the full sequence $N$ times. Iterations are clearly delimited in the log. At run end (or stop), the backend resets axes to origin using tracked step counts, writes a timestamped log file, and clears transient state.
+
+\subsection{Data, Logging \& State I/O}
+During a run the backend buffers timestamps, force vectors, step counts, trigger events, step boundaries, and summaries; after a run it produces a uniquely named log file (Export Logs). Download State saves the current StepBuilder configuration as JSON; Upload State restores it for reproducible protocols.
+
+\subsection{Robustness \& Safety}
+Emergency Stop immediately drops motor control outputs and emits an operator log event; graceful stop halts at the next safe opportunity. The backend validates inputs and runs long-lived work off the request thread to keep the server responsive. A quick Motor Check routine verifies motion on each axis before full experiments; Zero Sensor and Calibration actions maintain a clean baseline and consistent units.
+
+% ------------------------------------------------------------------------------
+
+\section{Sensor Calibration \& Safety Mechanisms \textnormal{(Delivered by Roshan Kumar Gupta)}}
+\label{sec:calibration}
+
+\subsection{Calibration Method (Manufacturer Two-Point)}
+Software scaling uses manufacturer-provided two-point calibration (0\,N, 10\,N). The default factors applied in software are listed in Table~\ref{tab:calibration-factors}. Raw frames are converted to physical forces per axis using these factors, and a \emph{Zero Sensor} action establishes a clean baseline before runs. Updated factors (from certificates or lab recalibration) can be applied and then re-zeroed.
+
+\begin{table}[htbp]
+\centering
+\caption{Manufacturer-supplied two-point calibration factors (0\,N, 10\,N) used as software defaults.}
+\label{tab:calibration-factors}
+\begin{tabular}{|c|c|l|}
+\hline
+\textbf{Axis} & \textbf{Factor} & \textbf{Note} \\
+\hline
+$F_x$ & 0.0612932 & Provided by manufacturer \\
+$F_y$ & 0.0603852 & Provided by manufacturer \\
+$F_z$ & 0.052317133779699 & Provided by manufacturer \\
+\hline
+\end{tabular}
+\end{table}
+
+
+\subsection{Operator Workflow (Pre-Run)}
+Zero Sensor with the fixture unloaded; verify factors; sanity-check idle $F_x, F_y, F_z$ are near zero; (optional) Motor Check; ensure StepBuilder thresholds respect the safety limit.
+
+\subsection{Safety Envelope, Integrity \& Notes}
+Global force cap (default 10\,N), ever-present E-Stop, graceful Stop, and post-run reset-to-origin ensure safe operation. The run log records timestamps, factors, zeroing actions, trigger events, step boundaries, and summaries; repeated runs are clearly delimited. Re-zero after fixture changes or temperature shifts; choose realistic setpoints.
+
+% ------------------------------------------------------------------------------
+
+\section{StepBuilder — Operator Guide \& Safety \textnormal{(Delivered by Roshan Kumar Gupta)}}
+\label{sec:stepbuilder}
+
+\subsection{Purpose}
+``The StepBuilder is the control brain of the testbed (colloquially nicknamed `Thanos' during development for its make-or-break impact). It governs what to move, when to stop, and whether to hold a target force — per axis — for reproducible and safe experiments.''
+
+\subsection{Core Concepts}
+Step (per axis); movement-init triggers (preconditions); break triggers (force/duration/steps); optional Hold (maintain target force until release); \emph{Any/All} logic; experiment-level Repeat; State import/export; Log export.
+
+\subsection{Recommended Workflow}
+Define scope (Repeat or Upload a saved setup); configure steps (direction, step size; init/break triggers; optional Hold with release); validate (limits, Any/All logic, safe thresholds); run \& monitor (forces, steps, logs; Stop/E-Stop as needed); analyze \& reuse (Export Logs; Download State).
+
+\subsection{Safety, Validation \& Recovery}
+Keep thresholds within sensor range and below the safety cap; prefer force-based init triggers; E-Stop is always available; post-run reset to origin. Common mistakes: too many conditions with \emph{All}; unreachable holds; misunderstanding that Repeat applies to the \emph{entire} sequence; skipping Zero/Calibrate. Recovery: check init triggers/direction/step size; verify comparator and axis; re-zero for noisy holds; reconnect UI if needed.
+
+% ------------------------------------------------------------------------------
+
+\section{Operator Walkthrough: Using the Sequence Builder (Screenshots) \textnormal{(Delivered by Roshan Kumar Gupta)}}
+\label{sec:sb-walkthrough}
+
+This section shows, step by step, how a new operator or tester should use the \textbf{Sequence Builder} to configure and run experiments safely. Each step references a UI screenshot.
+
+\paragraph{\textbf{Step 1 — Motor Check (unlock controls).}}
+Open the UI and click \textbf{Motor Check} first. This verifies basic motion and unlocks run-time actions (Run/Stop/E-Stop).
+\begin{figure}[htbp]\centering
+  \includegraphics[width=.9\linewidth]{pics/motor-check.png}
+  \caption{Run \textbf{Motor Check} to verify motion and unlock controls.}
+  \label{fig:sb-motor-check}
+\end{figure}
+
+\paragraph{\textbf{Step 2 — Add a step (choose axis \& rate).}}
+In \textbf{Sequence Builder}, click \textbf{Add X Step}, \textbf{Add Y Step}, or \textbf{Add Z Step}. Select direction and set the \textbf{Pulse Frequency (ms)} to control stepping rate.
+\begin{figure}[htbp]\centering
+  \includegraphics[width=.9\linewidth]{pics/sb-1.png}
+  \caption{Add an axis step; set direction and \textbf{Pulse Frequency}.}
+  \label{fig:sb-1}
+\end{figure}
+
+\paragraph{\textbf{Step 3 — Add a movement-init trigger.}}
+Click \textbf{Add Trigger which starts movement}. Use this when the step must wait for a condition (typically a force threshold) before moving.
+\begin{figure}[htbp]\centering
+  \includegraphics[width=.9\linewidth]{pics/sb-2.png}
+  \caption{\textbf{Add Trigger which starts movement} to define preconditions before motion.}
+  \label{fig:sb-2}
+\end{figure}
+
+\paragraph{\textbf{Step 4 — Configure the trigger.}}
+Choose the signal (e.g., \textbf{Fz (N)}), comparator (\textbf{$\ge, \le, ==, >, <$}), and value (e.g., \textbf{1} = $1$\,N). \textbf{Fire All Triggers = True} requires all listed init triggers to be true; \textbf{False} means any one is enough. Checked axes move together; unchecked axes stay idle.
+\begin{figure}[htbp]\centering
+  \includegraphics[width=.9\linewidth]{pics/sb-3.png}
+  \caption{Configure a movement-init trigger: signal, comparator, and value.}
+  \label{fig:sb-3}
+\end{figure}
+
+\paragraph{\textbf{Step 5 — Enable Hold Force.}}
+Scroll to \textbf{Hold Force} and enable it to add a force-controlled hold after movement stops.
+\begin{figure}[htbp]\centering
+  \includegraphics[width=.9\linewidth]{pics/sb-4.png}
+  \caption{Enable \textbf{Hold Force} for a controlled force-maintenance phase.}
+  \label{fig:sb-4}
+\end{figure}
+
+\paragraph{\textbf{Step 6 — Set Hold target and release conditions.}}
+Enter the hold setpoint (e.g., \textbf{Hold Fz = 5\,N}) and add \textbf{Stop holding if} conditions (force/duration/step-count). 
+\emph{Example:} If the break trigger is \textbf{Fz $\ge 10$\,N} and Hold is \textbf{5\,N}, the system presses until $\approx10$\,N, then settles and maintains $\approx5$\,N until the release condition fires.
+\begin{figure}[htbp]\centering
+  \includegraphics[width=.9\linewidth]{pics/sb-5.png}
+  \caption{Set the \textbf{Hold} setpoint and release conditions.}
+  \label{fig:sb-5}
+\end{figure}
+
+\paragraph{\textbf{Step 7 — Run once or enable Repeat.}}
+Use \textbf{Run} to execute once, or enable \textbf{Repeat} to run multiple back-to-back trials for adhesion studies.
+\begin{figure}[htbp]\centering
+  \includegraphics[width=.9\linewidth]{pics/sb-6.png}
+  \caption{\textbf{Run} the sequence or enable \textbf{Repeat} for multiple trials.}
+  \label{fig:sb-6}
+\end{figure}
+
+\paragraph{\textbf{Step 8 — Manage data (logs \& state).}}
+\textbf{Export}: download the \textbf{timestamped} run log. 
+\textbf{Upload}: load a saved \textbf{State (JSON)} to rehydrate the builder. 
+\textbf{Download}: save the current builder state as JSON for reuse or sharing.
+\begin{figure}[htbp]\centering
+  \includegraphics[width=.9\linewidth]{pics/sb-7.png}
+  \caption{Data Management: \textbf{Export} logs; \textbf{Upload/Download State} JSON.}
+  \label{fig:sb-7}
+\end{figure}
+
+\paragraph{\textbf{Step 9 — Monitor in real time \& use Manual Control.}}
+Observe \textbf{X/Y/Z positions} and \textbf{Force (N)} during a run. The \textbf{Manual Control} panel uses \textbf{click-and-release} for safety—movement occurs only while the button is actively pressed (no continuous joystick).
+\begin{figure}[htbp]\centering
+  \includegraphics[width=.9\linewidth]{pics/sb-8.png}
+  \caption{Real-time positions/force and \textbf{Manual Control} (click-and-release for safety).}
+  \label{fig:sb-8}
+\end{figure}
+
+
+\paragraph{\textbf{Full UI overview (optional).}}
+A wide view helps new users orient themselves: Sequence Builder (left), 3D scene (center), telemetry and logs (right/bottom).
+\begin{figure}[htbp]\centering
+  \includegraphics[width=\linewidth]{pics/ui-overview.png}
+  \caption{Full UI overview of the Gecko Adhesion Laboratory dashboard.}
+  \label{fig:ui-overview}
+\end{figure}
+
+
+% Where you want the link to appear(UI)
+\noindent\href{https://roshangupta00750.github.io/geckotestbed/}
+{\textbf{Get UI experience by clicking here}}
+\textit{(some functionality won’t work as it’s not connected to the server).}\\
+\textbf{Link:} \url{https://roshangupta00750.github.io/geckotestbed/}
+
+
+
+\paragraph{\textbf{Notes \& tips.}}
+\begin{itemize}
+  \item Step-count triggers are available under \textbf{Add Stop Condition / Trigger} (e.g., stop after 2000 micro-steps).
+  \item Keep thresholds within the sensor’s working range and below the global safety cap.
+  \item \textbf{Emergency Stop (E-Stop)} is always available and halts motion immediately.
+\end{itemize}
+
+
+% ------------------------------------------------------------------------------
+
+\section{Testing \& Results \textnormal{(Delivered by Roshan Kumar Gupta)}}
+\label{sec:testing}
+
+\subsection{Objectives}
+Confirm safe, reproducible execution of user-defined sequences with real-time telemetry, Repeat trials, and post-run analysis via logs and state export.
+
+\subsection{Test Plan}
+(1) \emph{Functional:} Run/Stop/E-Stop, Motor Check, Zero/Calibrate, JSON Import/Export, Log Export.\\
+
+(2) \emph{Execution:} Per-axis steps with movement-init, break, and optional hold.\\
+
+(3) \emph{Repeatability:} Run the same sequence with Repeat to compare adhesion behavior.\\
+
+(4) \emph{Telemetry:} Continuous $F_x, F_y, F_z$ (and shear where shown), step counts, and logs.\\
+
+(5) \emph{Safety:} Force cap respected; E-Stop immediate; post-run reset to origin.
+
+\subsection{Scenarios \& Expected Outcomes}
+Approach-until-contact (``$F_z \ge$ threshold'') halts at the threshold with a trigger-fired log; 
+force-controlled hold maintains setpoint until release; 
+Repeat produces delimited iterations with reset between runs; 
+mid-motion E-Stop halts immediately and logs the event; 
+state I/O round-trip rehydrates and exports as expected.
+
+\subsection{Evidence (Artifacts)}
+Screenshots: dashboard during run; Repeat setting + per-iteration headers; excerpt of exported log (step starts/stops, triggers, holds); Upload/Download State flow confirming round-trip.
+
+% ---------- 8.4 Evidence (Artifacts) — Part A ----------
+\begin{table*}[t]
+\centering
+\caption{Requirement $\rightarrow$ Evidence Traceability (Section 8.4)}
+\label{tab:traceability-a}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.15}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{.24\textwidth}YYY@{}}
+\toprule
+\textbf{Requirement (what)} & \textbf{Implementation (where)} & \textbf{Report Section} & \textbf{Evidence (figure/file)} \\
+\midrule
+End-to-end run of a user-defined sequence
+& Backend per-axis worker threads execute steps; StepBuilder defines steps/triggers
+& §§ 3, 4, 6–7
+& Fig.~\ref{fig:sb-6} “Run/Repeat”; \texttt{LOG-1} exported run log \\
+Movement-init triggers supported
+& Trigger evaluation before stepping (force preconditions)
+& §§ 4.3, 6.2, 7 (Steps 3–4)
+& Fig.~\ref{fig:sb-2} “Add Trigger which starts movement”; Fig.~\ref{fig:sb-3} configured trigger \\
+Break triggers: \textbf{force / duration / steps}
+& Trigger engine with comparators ($\ge, \le, ==, >, <$)
+& §§ 4.3, 6.2, 7 (Steps 5–6)
+& Fig.~\ref{fig:sb-4} “Add Stop Condition / Trigger”; Fig.~\ref{fig:sb-5} release conditions \\
+Optional \textbf{Hold} (maintain target force) with release conditions
+& Hold control loop with corrective micro-moves
+& §§ 4.3, 6.2, 7
+& Fig.~\ref{fig:sb-4} enable Hold; Fig.~\ref{fig:sb-5} Hold $=5$\,N + release \\
+\textbf{Any/All} trigger logic
+& Config flag for trigger groups
+& § 6.3; 7 (Step 4)
+& Fig.~\ref{fig:sb-3} “Fire All Triggers = True” \\
+\textbf{Repeat} full experiment $N$ times
+& Repeat lifecycle wraps entire sequence; iterations logged
+& § 4.4; 7 (Step 7)
+& Fig.~\ref{fig:sb-6} “Repeat = N”; \texttt{LOG-1} shows “Execution 0/1/…” \\
+\textbf{Emergency Stop} immediate halt
+& E-Stop drops outputs and broadcasts event
+& §§ 3.4, 4.6, 6.4
+& Fig.~\ref{fig:sb-6} “Emergency” button; \texttt{LOG-1}: “Emergency stop: All motors halted.” \\
+\textbf{Graceful Stop}
+& Stop at the next safe point
+& §§ 3.4, 4.6
+& Fig.~\ref{fig:sb-6} “Stop”; \texttt{LOG-1}: “Stopping …” then reset \\
+\textbf{Motor Check} health routine
+& Backend quick forward/back per axis + logs
+& §§ 3.3, 4.6
+& Fig.~\ref{fig:sb-motor-check} motor check \\
+\textbf{Zero Force} baseline \& \textbf{Calibration} factors
+& Zeroing + Apply Calibration in UI; software scaling
+& §§ 3.3, 5.1–5.2
+& Fig.~\ref{fig:sb-motor-check} “Zero Force” / “Apply Calibration”; Table~\ref{tab:calibration-factors} \\
+\textbf{Global force safety cap} respected
+& Safety bound in trigger evaluation
+& §§ 5.3, 6.4
+& \texttt{LOG-1}: no overshoot beyond cap during runs \\
+Live \textbf{Fx/Fy/Fz} (and shear) telemetry
+& Socket.IO streams; UI telemetry panel
+& §§ 3.4, 4.2
+& Fig.~\ref{fig:sb-8} real-time panel; Fig.~\ref{fig:ui-overview} \\
+Live \textbf{step counts} per axis
+& Backend emits counts; UI status
+& §§ 3.4, 4.2
+& Fig.~\ref{fig:sb-8} \\
+\textbf{3D visualizer} (spatial context)
+& Three.js scene with axes/motion cues
+& § 3.2
+& Fig.~\ref{fig:ui-overview} full UI \\
+\textbf{State Export/Import (JSON)}
+& Download current setup; Upload to rehydrate
+& §§ 3.3, 4.5, 7 (Step 8)
+& Fig.~\ref{fig:sb-7} “Export / Upload / Download”; \texttt{STATE-1} JSON file \\
+\textbf{Log export} for analysis
+& Timestamped human-readable log file
+& §§ 3.3, 4.5, 9
+& \texttt{LOG-1} exported file (attach) \\
+\textbf{Post-run reset to origin}
+& Walk-back using tracked steps
+& §§ 4.4, 6.4, 9
+& \texttt{LOG-1}: “Resetting motors to initial state.” \\
+\textbf{Manual Control} safety mode
+& Click-and-release (no continuous joystick)
+& §§ 3.2, 7 (Step 9)
+& Fig.~\ref{fig:sb-8} manual controls \\
+\textbf{Interactive UI preview (web)}
+& Static demo of the interface
+& Artifacts / Appendix
+& \href{https://roshangupta00750.github.io/geckotestbed/}{Get UI experience here} — \url{https://roshangupta00750.github.io/geckotestbed/} \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
 
 
 %------------------------------------------------------------------------------	
